@@ -10,11 +10,10 @@
   <ItemGroup>
     <Compile Include="ResourceLoader.fs" />
     <Compile Include="FSHttpMock.fs" />
-    <Compile Include="SplinterBotsMathFixture.fs" />
+    <Compile Include="API\LoginFixture.fs" />
     <Compile Include="API\SettingsFixture.fs" />
     <Compile Include="API\LeaderboardFixture.fs" />
     <Compile Include="API\SignatureFixture.fs" />
-    <Compile Include="API\LoginFixture.fs" />
     <Compile Include="API\PlayerAPI.QuestFixture.fs" />
     <Compile Include="API\BattleFixture.fs" />
     <EmbeddedResource Include="API\GitHubReleases.json" />
@@ -24,9 +23,6 @@
     <EmbeddedResource Include="API\Login.json" />
     <EmbeddedResource Include="API\Settings.json" />
     <EmbeddedResource Include="API\Leaderboard.json" />
-    <EmbeddedResource Include="Core\Cards\Cards.json" />
-    <Compile Include="Core\Cards\CardsFixture.fs" />
-    <Compile Include="App\GithubReleaseUpdateFixture.fs" />
     <None Include="Program.fs" />
   </ItemGroup>
 

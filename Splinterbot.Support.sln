@@ -18,7 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{293167
 		.build\build.yml = .build\build.yml
 		.build\deploy.yml = .build\deploy.yml
 		.build\devops.yml = .build\devops.yml
-		.build\publish.yml = .build\publish.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FB283E29-08D5-476D-9F8D-5FC238D6CA86}"
