@@ -1,0 +1,94 @@
+{
+    "timestamp": 1639742495485,
+    "name": "test.user",
+    "token": "ABCDEF1234",
+    "starter_pack_purchase": true,
+    "join_date": "1970-01-11T00:00:00.000Z",
+    "is_admin": false,
+    "is_cs_admin": false,
+    "is_team": false,
+    "referred_by": "main.user",
+    "rating": 336,
+    "max_rating": 1292,
+    "battles": 1711,
+    "wins": 827,
+    "current_streak": 1,
+    "longest_streak": 11,
+    "max_rank": 47185,
+    "champion_points": 0,
+    "capture_rate": 7509,
+    "last_reward_block": 10102420,
+    "last_reward_time": "1970-01-11T00:00:00.000Z",
+    "require_active_auth": true,
+    "settings": {},
+    "avatar_id": 0,
+    "display_name": null,
+    "title_pre": null,
+    "title_post": null,
+    "collection_power": 990,
+    "league": 1,
+    "adv_msg_sent": false,
+    "use_proxy": false,
+    "alt_name": "apprentice_12345",
+    "email": "test.user@example.com",
+    "messages": [],
+    "balances": [
+        {
+            "player": "test.user",
+            "token": "DEC",
+            "balance": 13.857
+        },
+        {
+            "player": "test.user",
+            "token": "CREDITS",
+            "balance": 89.534
+        },
+        {
+            "player": "test.user",
+            "token": "LEGENDARY",
+            "balance": 13
+        },
+        {
+            "player": "test.user",
+            "token": "SPS",
+            "balance": 0.033
+        },
+        {
+            "player": "test.user",
+            "token": "GOLD",
+            "balance": 9
+        },
+        {
+            "player": "test.user",
+            "token": "QUEST",
+            "balance": 0
+        },
+        {
+            "player": "test.user",
+            "token": "ECR",
+            "balance": 7509,
+            "last_reward_block": 10102420,
+            "last_reward_time": "2021-12-17T01:01:14.651Z"
+        }
+    ],
+    "guild": null,
+    "unrevealed_rewards": [],
+    "season_max_league": 2,
+    "quest": {
+        "id": "123",
+        "player": "test.user",
+        "created_date": "1970-01-11T00:00:00.000Z",
+        "created_block": 1234345,
+        "name": "Stealth Mission",
+        "total_items": 5,
+        "completed_items": 4,
+        "claim_trx_id": null,
+        "claim_date": null,
+        "reward_qty": 1,
+        "refresh_trx_id": null,
+        "rewards": null
+    },
+    "season_reward": { "reward_packs": 0 },
+    "has_keys": true,
+    "keys_available": "#2434safdsdafsdfgsa"
+}

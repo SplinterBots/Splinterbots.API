@@ -1,0 +1,16 @@
+stages:
+  - stage: Build
+    jobs:
+      - job: 
+        steps:
+          - task: UseDotNet@2
+            inputs:
+              packageType: 'sdk'
+              version: '6.0.x'
+              includePreviewVersions: true
+          - task: CmdLine@2
+            inputs:
+              script: 'dotnet tool restore'
+          - task: CmdLine@2
+            inputs:
+              script: 'dotnet fake run ./.build/build.fsx --target build -d'

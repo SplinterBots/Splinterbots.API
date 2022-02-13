@@ -1,0 +1,69 @@
+stages:
+  - stage: Publish 
+    dependsOn: Build
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+    jobs: 
+      - job: linux_arm 
+        steps:
+          - template: publish.yml
+            parameters:
+              runtime: linux-arm64 
+              version: '$(Build.BuildNumber)'
+      - job: linux 
+        steps:
+          
+          - template: publish.yml
+            parameters:
+              runtime: linux-x64 
+              version: '$(Build.BuildNumber)'
+      - job: windows 
+        steps:
+          - template: publish.yml
+            parameters:
+              runtime: win-x64 
+              version: '$(Build.BuildNumber)'
+      - job: mac 
+        pool:
+          vmImage: 'macOS-11'
+        steps:        
+          - template: publish.yml
+            parameters:
+              runtime: osx-x64
+              version: '$(Build.BuildNumber)'
+  - stage: push_2_github
+    dependsOn: Publish
+    jobs: 
+      - job: copy_2_github
+        steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'linux-arm64'
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'linux-x64'
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'osx-x64'
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'win-x64'
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+          - task: GitHubRelease@1
+            inputs:
+              gitHubConnection: 'github.com_Assassyn'
+              repositoryName: 'functional-solutions/splinterbots'
+              action: 'create'
+              target: '$(Build.SourceVersion)'
+              tagSource: 'userSpecifiedTag'
+              tag: 'release-$(Build.BuildNumber)'
+              title: '$(Build.BuildNumber)'
+              isDraft: true
+              changeLogCompareToRelease: 'lastFullRelease'
+              changeLogType: 'commitBased'

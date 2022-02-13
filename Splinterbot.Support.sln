@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{54437566-C6E5-4F50-ABC0-8310C23E7347}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E1873CD9-0E49-47E7-AB62-AD4695952FCD}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		global.json = global.json
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{293167B6-2043-4487-9518-2FB78F76FEA4}"
+	ProjectSection(SolutionItems) = preProject
+		.build\build.fsx = .build\build.fsx
+		.build\build.yml = .build\build.yml
+		.build\deploy.yml = .build\deploy.yml
+		.build\devops.yml = .build\devops.yml
+		.build\publish.yml = .build\publish.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FB283E29-08D5-476D-9F8D-5FC238D6CA86}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Functional.SplinterBots.Testing", "test\Functional.SplinterBots.ClaimBot\Functional.SplinterBots.Testing.fsproj", "{55F61F7C-E933-42C7-B9E8-31EEEA0ACCC0}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Functional.SplinterBots.API", "src\Functional.SplinterBots.API\Functional.SplinterBots.API.fsproj", "{3A57B051-7DA0-412A-9930-814DD92F8099}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Functional.SplinterBots.BattleAPI", "src\Functional.SplinterBots.BattleAPI\Functional.SplinterBots.BattleAPI.fsproj", "{46C5FD09-ACE6-42EC-B49E-5529356380B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{6BEC8DBE-2C67-4CE1-9041-9905C99182CB}"
+	ProjectSection(SolutionItems) = preProject
+		.config\dotnet-tools.json = .config\dotnet-tools.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55F61F7C-E933-42C7-B9E8-31EEEA0ACCC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F61F7C-E933-42C7-B9E8-31EEEA0ACCC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F61F7C-E933-42C7-B9E8-31EEEA0ACCC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F61F7C-E933-42C7-B9E8-31EEEA0ACCC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A57B051-7DA0-412A-9930-814DD92F8099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A57B051-7DA0-412A-9930-814DD92F8099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A57B051-7DA0-412A-9930-814DD92F8099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A57B051-7DA0-412A-9930-814DD92F8099}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46C5FD09-ACE6-42EC-B49E-5529356380B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46C5FD09-ACE6-42EC-B49E-5529356380B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46C5FD09-ACE6-42EC-B49E-5529356380B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46C5FD09-ACE6-42EC-B49E-5529356380B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{293167B6-2043-4487-9518-2FB78F76FEA4} = {E1873CD9-0E49-47E7-AB62-AD4695952FCD}
+		{55F61F7C-E933-42C7-B9E8-31EEEA0ACCC0} = {FB283E29-08D5-476D-9F8D-5FC238D6CA86}
+		{3A57B051-7DA0-412A-9930-814DD92F8099} = {54437566-C6E5-4F50-ABC0-8310C23E7347}
+		{46C5FD09-ACE6-42EC-B49E-5529356380B3} = {54437566-C6E5-4F50-ABC0-8310C23E7347}
+		{6BEC8DBE-2C67-4CE1-9041-9905C99182CB} = {E1873CD9-0E49-47E7-AB62-AD4695952FCD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C8989DB1-14F8-41EF-B8FC-B5DC625780BE}
+	EndGlobalSection
+EndGlobal

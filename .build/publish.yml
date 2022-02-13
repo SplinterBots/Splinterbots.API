@@ -1,0 +1,22 @@
+parameters:
+  - name: runtime 
+    type: string
+  - name: version
+    type: string
+steps:
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '6.0.x'
+      includePreviewVersions: true
+  - task: CmdLine@2
+    inputs:
+      script: 'dotnet tool restore'
+  - task: CmdLine@2
+    inputs:
+      script: "dotnet fake run ./.build/build.fsx --target publish -e runtime=${{ parameters.runtime }} -e version=${{ parameters.version }}"
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: './artifacts/'
+      artifact: '${{ parameters.runtime }}'
+      publishLocation: 'pipeline'
