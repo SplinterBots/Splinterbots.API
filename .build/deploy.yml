@@ -1,7 +1,7 @@
 stages:
   - stage: Deploy_2_nugetorg 
     dependsOn: Build
-    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'))
     jobs: 
       - job: 
         steps:
