@@ -30,4 +30,4 @@ stages:
               command: 'push'
               packagesToPush: './artifacts/*.nupkg;!./artifacts/*.symbols.nupkg'
               nuGetFeedType: 'external'
-              publishFeedCredentials: 'nuget-hive-net'
+              publishFeedCredentials: 'SplinterbotsNugetOrg'
