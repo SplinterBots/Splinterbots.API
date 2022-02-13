@@ -31,3 +31,4 @@ stages:
               packagesToPush: './artifacts/*.nupkg;!./artifacts/*.symbols.nupkg'
               nuGetFeedType: 'external'
               publishFeedCredentials: 'SplinterbotsNugetOrg'
+              allowPackageConflicts: true
