@@ -9,8 +9,10 @@ stages:
               version: '6.0.x'
               includePreviewVersions: true
           - task: CmdLine@2
+            displayName: 'Restore dotnet tools'
             inputs:
               script: 'dotnet tool restore'
           - task: CmdLine@2
+            displayName: 'Build the project'
             inputs:
               script: 'dotnet fake run ./.build/build.fsx --target build -d'
