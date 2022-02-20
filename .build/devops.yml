@@ -13,8 +13,6 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-name: 1.0.0-$(Rev:r)
-
 stages:
   - template: build.yml
   - template: deploy.yml
