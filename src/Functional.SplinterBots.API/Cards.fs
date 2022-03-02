@@ -34,3 +34,12 @@ module Cards =
 
             return cards.cards
         }
+        
+    let sentCards cardIds playerName activeKey =
+        let transactionPayload  =
+            sprintf "{\"to\":\"%s\",\"cards\":[%s],\"app\":\"%s\",\"n\":\"%s\"}"
+                playerName
+                cardIds
+        let operations = API.createCustomJsonActiveKey playerName "sm_gift_cards" transactionPayload
+        let txid = API.hive.broadcast_transaction([| operations |] , [| activeKey |])
+        API.waitForTransaction playerName txid

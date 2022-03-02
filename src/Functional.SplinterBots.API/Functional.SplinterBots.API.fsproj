@@ -4,10 +4,11 @@
         <TargetFramework>net6.0</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Version>1.1.0</Version>
+        <Version>1.2.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="IdConverter.fs" />
         <Compile Include="UnionTools.fs" />
         <Compile Include="API.fs" />
         <Compile Include="Settings.fs" />

@@ -90,16 +90,6 @@ module Market =
         let txid = API.hive.broadcast_transaction([| operations |] , [| activeKey |])
         API.waitForTransaction playerName txid
 
-    let bindMultipleCardsId ids =
-        let concatenatedIDds =
-            ids
-            |> Seq.map (fun id -> $"\"{id}\"")
-            |> String.concat ","
-        $"{concatenatedIDds}"
-
-    let bindSingleId id = 
-        $"\"{id}\""
-
     let rentCards items currency days playerName activeKey =
         let transactionPayload  =
             sprintf "{\"items\":[%s],\"currency\":\"%A\",\"days\":%i,\"app\":\"%s\",\"n\":\"%s\"}"
