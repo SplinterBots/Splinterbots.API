@@ -13,6 +13,7 @@ module Cards =
            xp: int
            delegated_to_display_name: string
            player: string
+           uid: string
         }
 
     type PlayerCardCollection = 
