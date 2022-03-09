@@ -29,7 +29,7 @@ module Cards =
             return cards.cards
         }
 
-    let ownedByPlayerFilter playerName (cards: Card seq) = 
+    let filterCardsByOwningPlayer playerName (cards: Card seq) = 
         cards
         |> Seq.filter (fun card -> card.player = playerName)
 
