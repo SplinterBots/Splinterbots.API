@@ -11,6 +11,8 @@ module Cards =
            gold: bool
            edition: int
            xp: int
+           delegated_to_display_name: string
+           player: string
         }
 
     type PlayerCardCollection = 
@@ -26,6 +28,10 @@ module Cards =
 
             return cards.cards
         }
+
+    let ownedByPlayerFilter playerName (cards: Card seq) = 
+        cards
+        |> Seq.filter (fun card -> card.player = playerName)
 
     let getCardList () =
         async {
