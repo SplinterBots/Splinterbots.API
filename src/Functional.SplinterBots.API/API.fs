@@ -87,10 +87,11 @@ module API =
         let json = getJson applicationIdentifier (generateRandomString 10)
         createCustomJson username false true methodName json
         
+    type TransactionId = string
     type TransactionResult = 
-        | FinishedOk 
-        | DidNotFinished
-
+        | FinishedOk of TransactionId
+        | DidNotFinished of TransactionId
+        
     let waitForTransaction playerName transactionId =
         let sleepTime = TimeSpan.FromSeconds 5.0
         let mutable counter = 25
@@ -111,6 +112,6 @@ module API =
                 counter <- 0
 
         match counter with 
-        | x when x = 0 -> DidNotFinished
-        | _  -> FinishedOk
+        | x when x = 0 -> DidNotFinished transactionId
+        | _  -> FinishedOk transactionId
 

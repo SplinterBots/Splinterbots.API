@@ -24,8 +24,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="FsHttp" Version="7.0.0" />
-        <PackageReference Include="HiveAPI" Version="0.1.1" />
+        <PackageReference Include="FsHttp" Version="8.0.1" />
+        <PackageReference Include="HiveAPI" Version="0.2.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 
