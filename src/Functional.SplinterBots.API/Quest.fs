@@ -37,7 +37,7 @@ module Rewards =
 
 module Quest =
     let private uri name = 
-        buildPlayerApiUri "quests" $"username={name}"
+        getPlayerUri "quests" $"username={name}"
     type PlayerQuests = 
         {
             id: string
@@ -114,7 +114,7 @@ module Quest =
 
 module LastSeasonRewards = 
     let private uri name = 
-        buildPlayerApiUri "last_season_rewards" $"username={name}"
+        getPlayerUri "last_season_rewards" $"username={name}"
 
     type SeasonRewards = 
         {

@@ -24,18 +24,17 @@ module API =
     let gameApiUri action =
         $"https://game-api.splinterlands.com/{action}" 
         
-    let buildPlayerApiUri action queryParameters =
+    let getPlayerUri action queryParameters =
         $"{api2Uri}/players/{action}?{queryParameters}"
-    let getCardsApiUri action = 
+    let getCardsUri action = 
         $"{api2Uri}/cards/{action}"
     let getMarketUri action =
         $"{api2Uri}/market/{action}"
-    let getBattleApiUri action queryParameters = 
+    let getBattleUri action queryParameters = 
         $"{api2Uri}/battle/{action}?{queryParameters}"
-    let getECApiUri action queryParameters =
+    let getECUri action queryParameters =
         $"https://ec-api.splinterlands.com/players/{action}?{queryParameters}"
-    let battleUri  = 
-        "https://battle.splinterlands.com/battle/battle_tx"
+    let battleUri  = "https://battle.splinterlands.com/battle/battle_tx"
 
     let setToUserNameWhenTrue username isTrue =
         match isTrue with 
@@ -66,17 +65,18 @@ module API =
             return! JsonSerializer.DeserializeAsync<'T>(responseStream).AsTask() |> Async.AwaitTask   
         }
 
+    
     let executeApiPostCall<'T> url payload = 
         async {
             let! response =
                 httpAsync {                   
                     POST url
-                    CacheControl "no-cache"
-                    UserAgent "SplinterBots"
+                    UserAgent "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0"
+                    ContentType "application/x-www-form-urlencoded"                                      
                     body 
                     json payload
                 }
-                
+            
             let! responseStream =  response |> toStreamAsync
             return! JsonSerializer.DeserializeAsync<'T>(responseStream).AsTask() |> Async.AwaitTask 
         }

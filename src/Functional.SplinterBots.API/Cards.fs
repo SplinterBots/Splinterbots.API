@@ -24,7 +24,7 @@ module Cards =
 
     let getPlayerCollection playerName =
         async {
-            let uri = getCardsApiUri $"collection/{playerName}"
+            let uri = getCardsUri $"collection/{playerName}"
             let! cards = executeApiCall<PlayerCardCollection> uri
 
             return cards.cards
@@ -36,7 +36,7 @@ module Cards =
 
     let getCardList () =
         async {
-            let uri = getCardsApiUri "get_details"
+            let uri = getCardsUri "get_details"
             let! cards = executeApiCall<PlayerCardCollection> uri
 
             return cards.cards

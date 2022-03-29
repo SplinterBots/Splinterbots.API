@@ -1,6 +1,7 @@
 ﻿namespace Functional.SplinterBots.API
 
 open HiveAPI
+open System
 
 module Battle =
 
@@ -26,7 +27,7 @@ module Battle =
     let getBattleHistory userName =
         async {
             let uri = 
-                getBattleApiUri "history" $"player={userName}"
+                getBattleUri "history" $"player={userName}"
             let! battleResult = executeApiCall<PlayerBatleStats> uri
 
             return battleResult.battles
@@ -35,14 +36,20 @@ module Battle =
     let getBatleDetails battleId = 
         async {
             let uri = 
-                getBattleApiUri "result" $"id={battleId}"
+                getBattleUri "result" $"id={battleId}"
             let! battleResult = executeApiCall<PlayerBatleStats> uri
 
             return battleResult.battles
         }
-     
-    let getStringForSplinterlandsAPI (transaction: CHived.CtransactionData) = 
-        let json = JsonSerializer.Serialize transaction.tx
+
+    type StartBattleInfo =
+        {
+            success: bool 
+            id: string 
+        }
+        
+    let private getStringForSplinterlandsAPI (transaction: CHived.CtransactionData) = 
+        let json = Newtonsoft.Json.JsonConvert.SerializeObject(transaction.tx)
         let fixedJson = 
             json
                 .Replace("operations\":[{", "operations\":[[\"custom_json\",{")
@@ -51,26 +58,53 @@ module Battle =
         postData
 
     let findNextMatch playerName postingKey =
-        let transactionPayload = sprintf "{\"match_type\":\"Ranked\",\"app\":\"%s\",\"n\":\"%s\"}"
-        let operations = API.createCustomJsonPostingKey playerName "" transactionPayload
-        let transactionData = API.hive.create_transaction([| operations |] , [| postingKey |])
-        let postData = getStringForSplinterlandsAPI transactionData
-        let battleData = API.executeApiPostCall API.battleUri postData
-        battleData
+        async {
+            let transactionPayload = sprintf "{\"match_type\":\"Ranked\",\"app\":\"%s\",\"n\":\"%s\"}"
+            let operations = API.createCustomJsonPostingKey playerName "sm_find_match" transactionPayload
+            let transactionData = API.hive.create_transaction([| operations |] , [| postingKey |])
+            let postData = getStringForSplinterlandsAPI transactionData
+            let! battleData = API.executeApiPostCall<StartBattleInfo> API.battleUri postData
+            return battleData
+        }
 
-     //string n = Helper.GenerateRandomString(10);
-            //string json = "{\"match_type\":\"Ranked\",\"app\":\"" + Settings.SPLINTERLANDS_APP + "\",\"n\":\"" + n + "\"}";
+    type OutstandingMatch = 
+        {
+            id: string 
+            created_block_num: int 
+            expiration_block_num: int 
+            player: string 
+            team_hash: obj 
+            match_type: string 
+            mana_cap: int 
+            opponent: string 
+            match_block_num: int 
+            status: int 
+            reveal_tx: obj 
+            reveal_block_id: obj 
+            team: obj 
+            summoner_level: obj 
+            ruleset: string 
+            inactive: string 
+            opponent_player: string 
+            opponent_team_hash: obj 
+            submit_expiration_block_num: int 
+            settings: string 
+            app: obj 
+            created_date: DateTime 
+            expiration_date: DateTime 
+            match_date: DateTime 
+            submit_expiration_date: DateTime 
+            recent_opponents: string 
+            is_critical: bool 
+        }
 
-            //COperations.custom_json custom_Json = CreateCustomJson(false, true, "sm_find_match", json);
 
-            //try
-            //{
-            //    Log.WriteToLog($"{Username}: Finding match...");
-            //    CtransactionData oTransaction = Settings.oHived.CreateTransaction(new object[] { custom_Json }, new string[] { PostingKey });
-            //    var postData = GetStringForSplinterlandsAPI(oTransaction);
-            //    return HttpWebRequest.WebRequestPost(Settings.CookieContainer, postData, "https://battle.splinterlands.com/battle/battle_tx", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0", "", Encoding.UTF8);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.WriteToLog($"{Username}: Error at finding match: " + ex.ToString(), Log.LogType.Error);
-            //}
+
+    let getOutstandingMatch playerName =
+        async {
+            let uri = 
+                getPlayerUri "outstanding_match" $"username={playerName}"
+            let! outstandingMatch = executeApiCall<OutstandingMatch option> uri
+
+            return outstandingMatch
+        }

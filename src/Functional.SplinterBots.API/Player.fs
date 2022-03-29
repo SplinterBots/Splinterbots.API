@@ -60,7 +60,7 @@ module Player =
                     alfa = 0.0M
                 }
         let private getPlayerBalanceApiUrl name = 
-            buildPlayerApiUri "balances" $"username={name}"
+            getPlayerUri "balances" $"username={name}"
 
         let getBalance playerName =
             let getBalance (items: TokenBalance seq) (token: Token) = 
@@ -92,7 +92,7 @@ module Player =
             }
     module Details =
         let private uri name = 
-            buildPlayerApiUri "details" $"name={name}"
+            getPlayerUri "details" $"name={name}"
         type PlayerDetails = 
             {
                 name: string
@@ -136,7 +136,7 @@ module Player =
             }
     module Cards =
         let private uri name = 
-            buildPlayerApiUri "details" $"name={name}"
+            getPlayerUri "details" $"name={name}"
         
 
         let getCardsList playerName =
