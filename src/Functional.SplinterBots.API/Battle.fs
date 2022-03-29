@@ -1,5 +1,7 @@
 ﻿namespace Functional.SplinterBots.API
 
+open HiveAPI
+
 module Battle =
 
     open System.IO
@@ -38,16 +40,23 @@ module Battle =
 
             return battleResult.battles
         }
-
-
-    //https://api2.splinterlands.com/battle/result?id=sl_82b715642ec2df5af891e9caf24d11d6&v=1647346276389&token=5LY94WARMO&username=assassyn
      
+    let getStringForSplinterlandsAPI (transaction: CHived.CtransactionData) = 
+        let json = JsonSerializer.Serialize transaction.tx
+        let fixedJson = 
+            json
+                .Replace("operations\":[{", "operations\":[[\"custom_json\",{")
+                .Replace(",\"opid\":18}", "}]")
+        let postData = sprintf "signed_tx=%s" fixedJson
+        postData
+
     let findNextMatch playerName postingKey =
         let transactionPayload = sprintf "{\"match_type\":\"Ranked\",\"app\":\"%s\",\"n\":\"%s\"}"
         let operations = API.createCustomJsonPostingKey playerName "" transactionPayload
-        let txid = API.hive.create_transaction([| operations |] , [| postingKey |])
-        //API.waitForTransaction playerName txid
-        ()
+        let transactionData = API.hive.create_transaction([| operations |] , [| postingKey |])
+        let postData = getStringForSplinterlandsAPI transactionData
+        let battleData = API.executeApiPostCall API.battleUri postData
+        battleData
 
      //string n = Helper.GenerateRandomString(10);
             //string json = "{\"match_type\":\"Ranked\",\"app\":\"" + Settings.SPLINTERLANDS_APP + "\",\"n\":\"" + n + "\"}";

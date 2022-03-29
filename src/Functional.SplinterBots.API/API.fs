@@ -34,6 +34,8 @@ module API =
         $"{api2Uri}/battle/{action}?{queryParameters}"
     let getECApiUri action queryParameters =
         $"https://ec-api.splinterlands.com/players/{action}?{queryParameters}"
+    let battleUri  = 
+        "https://battle.splinterlands.com/battle/battle_tx"
 
     let setToUserNameWhenTrue username isTrue =
         match isTrue with 
@@ -60,9 +62,23 @@ module API =
                     UserAgent "SplinterBots"
                 }
                 
-            let test = response |> Response.toString Int32.MaxValue
             let! responseStream =  response |> toStreamAsync
             return! JsonSerializer.DeserializeAsync<'T>(responseStream).AsTask() |> Async.AwaitTask   
+        }
+
+    let executeApiPostCall<'T> url payload = 
+        async {
+            let! response =
+                httpAsync {                   
+                    POST url
+                    CacheControl "no-cache"
+                    UserAgent "SplinterBots"
+                    body 
+                    json payload
+                }
+                
+            let! responseStream =  response |> toStreamAsync
+            return! JsonSerializer.DeserializeAsync<'T>(responseStream).AsTask() |> Async.AwaitTask 
         }
 
 
