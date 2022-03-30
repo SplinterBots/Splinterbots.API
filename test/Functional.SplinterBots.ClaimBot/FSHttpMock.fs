@@ -47,7 +47,7 @@ module FsHttp =
             "/players/messages?token=NOTVALID", "API.Messages.NOTVALID.json"
             "/battle/history?player=test_player", "API.Battle.json"
             "/repos/functional-solutions/Splinterbots/releases", "API.GitHubReleases.json"
-            "/cards/get_details", "Core.Cards.Cards.json"
+            //"/cards/get_details", "Core.Cards.Cards.json"
         ] 
     let initialiseMocking () =
         let handlers = 

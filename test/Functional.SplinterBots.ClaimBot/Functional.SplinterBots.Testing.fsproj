@@ -16,6 +16,7 @@
     <Compile Include="API\SignatureFixture.fs" />
     <Compile Include="API\PlayerAPI.QuestFixture.fs" />
     <Compile Include="API\BattleFixture.fs" />
+    <Compile Include="API\SplinterFixture.fs" />
     <EmbeddedResource Include="API\GitHubReleases.json" />
     <EmbeddedResource Include="API\Battle.json" />
     <EmbeddedResource Include="API\Messages.ABCDEF1234.json" />

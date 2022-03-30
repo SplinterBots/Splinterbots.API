@@ -9,9 +9,7 @@ module Cards =
         {
            card_detail_id: int
            gold: bool
-           edition: int
            xp: int
-           delegated_to_display_name: string
            player: string
            uid: string
         }

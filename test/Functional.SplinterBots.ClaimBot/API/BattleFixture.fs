@@ -17,7 +17,7 @@ module BattleFixture =
             FsHttp.initialiseMocking ()
 
             let username = "test_player"
-            let! bronzeLeaderboard = API.Battle.getBattle username
+            let! bronzeLeaderboard = API.Battle.getBatleDetails username
 
             bronzeLeaderboard
             |> Seq.length
@@ -30,7 +30,7 @@ module BattleFixture =
             FsHttp.initialiseMocking ()
 
             let username = "test_player"
-            let! bronzeLeaderboard = API.Battle.getBattle username
+            let! bronzeLeaderboard = API.Battle.getBatleDetails username
 
             let firstBattle = 
                 bronzeLeaderboard
