@@ -1,8 +1,5 @@
 ﻿namespace Functional.SplinterBots.API
 
-open HiveAPI
-open System
-
 module Splinters = 
 
     let private splinters = 
