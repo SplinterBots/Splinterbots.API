@@ -57,7 +57,7 @@ module Battle =
         let postData = sprintf "signed_tx=%s" fixedJson
         postData
 
-    let findNextMatch playerName postingKey =
+    let startNextMatch playerName postingKey =
         async {
             let transactionPayload = sprintf "{\"match_type\":\"Ranked\",\"app\":\"%s\",\"n\":\"%s\"}"
             let operations = API.createCustomJsonPostingKey playerName "sm_find_match" transactionPayload
@@ -73,7 +73,7 @@ module Battle =
             created_block_num: int 
             expiration_block_num: int 
             player: string 
-            team_hash: obj 
+            team_hash: string option  
             match_type: string 
             mana_cap: int 
             opponent: string 
@@ -86,7 +86,7 @@ module Battle =
             ruleset: string 
             inactive: string 
             opponent_player: string 
-            opponent_team_hash: obj 
+            opponent_team_hash: string option  
             submit_expiration_block_num: int 
             settings: string 
             app: obj 
@@ -98,7 +98,9 @@ module Battle =
             is_critical: bool 
         }
 
-
+    module OutstandingMatch = 
+        let isTeamSubmited outstandingMatch =
+            outstandingMatch.team_hash.IsSome
 
     let getOutstandingMatch playerName =
         async {
