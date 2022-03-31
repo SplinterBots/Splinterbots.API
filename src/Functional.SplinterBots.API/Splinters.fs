@@ -13,7 +13,6 @@ module Splinters =
         ]
         
     let getAllowedSplinters (inactiveSplinters: string) = 
-        //let inactiveSplinters = inactiveSplinters.Split(',')
         let result = 
             splinters 
             |> Seq.filter (fun (color, _) -> not (inactiveSplinters.Contains(color)))
