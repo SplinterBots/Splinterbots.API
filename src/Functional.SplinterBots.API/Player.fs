@@ -134,13 +134,3 @@ module Player =
                 let uri = uri playerName
                 return! executeApiCall<PlayerDetails> uri
             }
-    module Cards =
-        let private uri name = 
-            getPlayerUri "details" $"name={name}"
-        
-
-        let getCardsList playerName =
-            async {
-                let uri = uri playerName
-                return! executeApiCall<Cards.Card list> uri
-            }

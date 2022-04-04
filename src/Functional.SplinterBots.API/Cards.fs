@@ -31,14 +31,6 @@ module Cards =
     let filterCardsByOwningPlayer playerName (cards: Card seq) = 
         cards
         |> Seq.filter (fun card -> card.player = playerName)
-
-    let getCardList () =
-        async {
-            let uri = getCardsUri "get_details"
-            let! cards = executeApiCall<PlayerCardCollection> uri
-
-            return cards.cards
-        }
         
     let sentCards cardIds destinationPlayerName playerName activeKey =
         let transactionPayload  =
@@ -48,3 +40,9 @@ module Cards =
         let operations = API.createCustomJsonActiveKey playerName "sm_gift_cards" transactionPayload
         let txid = API.hive.broadcast_transaction([| operations |] , [| activeKey |])
         API.waitForTransaction playerName txid
+
+    let getCardsList playerName =
+        async {
+            let uri = getPlayerUri "details" $"name={playerName}"
+            return! executeApiCall<Cards.Card list> uri
+        }
