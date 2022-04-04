@@ -61,5 +61,3 @@ module Transfer =
             let! claimData = API.executeApiCall<ClaimResult> uri
             ()
         }
-
-        

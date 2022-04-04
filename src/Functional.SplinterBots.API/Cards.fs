@@ -41,8 +41,43 @@ module Cards =
         let txid = API.hive.broadcast_transaction([| operations |] , [| activeKey |])
         API.waitForTransaction playerName txid
 
-    let getCardsList playerName =
-        async {
-            let uri = getPlayerUri "details" $"name={playerName}"
-            return! executeApiCall<Card list> uri
+    type CardType =
+        | Monster
+        | Splinter
+
+    type CardColour =
+        | All
+        | Red
+        | Blue
+        | Green
+        | White
+        | Black
+        | Gold
+        | Gray
+
+    [<Flags>]
+    type CardRarity  =
+        | Common = 1
+        | Rare = 2
+        | Epic = 3
+        | Legendary = 4
+
+    type CardListItem =
+        {
+            id: int
+            name: string
+            ``type``: CardType
+            color: CardColour
+            rarity: CardRarity
+            is_starter: bool
         }
+
+    let cardsList = 
+        let cardsUri = $"{api2Uri}/cards/get_details"
+        let rawCardsData = executeApiCall<CardListItem seq> cardsUri |> Async.RunSynchronously
+        rawCardsData
+
+    let getStarterCards () =
+          cardsList 
+          |> Seq.filter (fun card -> card.is_starter)
+
