@@ -44,5 +44,5 @@ module Cards =
     let getCardsList playerName =
         async {
             let uri = getPlayerUri "details" $"name={playerName}"
-            return! executeApiCall<Cards.Card list> uri
+            return! executeApiCall<Card list> uri
         }
