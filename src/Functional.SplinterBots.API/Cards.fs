@@ -9,7 +9,7 @@ module Cards =
         {
            card_detail_id: int
            gold: bool
-           xp: int
+           level: int
            player: string
            uid: string
         }
@@ -80,4 +80,5 @@ module Cards =
     let getStarterCards () =
           cardsList 
           |> Seq.filter (fun card -> card.is_starter)
+          |> Seq.map (fun card -> {card_detail_id = card.id; gold = false; level = 1; player = ""; uid = card.id.ToString()})
 
