@@ -42,18 +42,17 @@ module Cards =
         API.waitForTransaction playerName txid
 
     type CardType =
-        | Monster
-        | Splinter
+        | Monster = 1
+        | Splinter = 2
 
     type CardColour =
-        | All
-        | Red
-        | Blue
-        | Green
-        | White
-        | Black
-        | Gold
-        | Gray
+        | Red = 1
+        | Blue = 2
+        | Green = 3
+        | White = 4
+        | Black = 5
+        | Gold = 6
+        | Gray = 7
 
     [<Flags>]
     type CardRarity  =
@@ -66,8 +65,8 @@ module Cards =
         {
             id: int
             name: string
-            ``type``: CardType
-            color: CardColour
+            ``type``: string
+            color: string
             rarity: CardRarity
             is_starter: bool
         }

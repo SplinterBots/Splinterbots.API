@@ -10,21 +10,21 @@
   <ItemGroup>
     <Compile Include="ResourceLoader.fs" />
     <Compile Include="FSHttpMock.fs" />
+    <None Include="Program.fs" />
+    <Compile Include="API\CardsFixture.fs" />
     <Compile Include="API\LoginFixture.fs" />
     <Compile Include="API\SettingsFixture.fs" />
     <Compile Include="API\LeaderboardFixture.fs" />
     <Compile Include="API\SignatureFixture.fs" />
     <Compile Include="API\PlayerAPI.QuestFixture.fs" />
-    <Compile Include="API\BattleFixture.fs" />
     <Compile Include="API\SplinterFixture.fs" />
     <EmbeddedResource Include="API\GitHubReleases.json" />
-    <EmbeddedResource Include="API\Battle.json" />
+    <EmbeddedResource Include="API\Cards.GetDetails.json" />
     <EmbeddedResource Include="API\Messages.ABCDEF1234.json" />
     <EmbeddedResource Include="API\Messages.NOTVALID.json" />
     <EmbeddedResource Include="API\Login.json" />
     <EmbeddedResource Include="API\Settings.json" />
     <EmbeddedResource Include="API\Leaderboard.json" />
-    <None Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
