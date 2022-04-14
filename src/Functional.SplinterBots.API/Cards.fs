@@ -83,9 +83,9 @@ module Cards =
             let! playerCards = getPlayerCards playerName
 
             let playableCards = 
-                starterCards
-                |> Seq.append playerCards
-                |> Seq.distinct
+                playerCards
+                |> Seq.append starterCards
+                |> Seq.distinctBy (fun card -> card.card_detail_id)
 
             return playerCards
         }
