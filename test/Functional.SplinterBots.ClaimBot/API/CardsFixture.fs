@@ -55,3 +55,15 @@ module CardsFixture =
             startedCard.uid
             |> should not' (startWith "starter-")
         }
+
+    [<Fact>]
+    let ``Can merge all available cards`` () =
+        async {
+            FsHttp.initialiseMocking ()
+            
+            let! cards = Cards.getAvailableCardsForPlayer "ThePlayer"
+
+            cards
+            |> Seq.length
+            |> should equal 65
+        }

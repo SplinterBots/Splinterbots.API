@@ -77,3 +77,16 @@ module Cards =
             return cards.cards
         }
 
+    let getAvailableCardsForPlayer playerName =
+        async {
+            let starterCards = getStarterCards ()
+            let! playerCards = getPlayerCards playerName
+
+            let playableCards = 
+                starterCards
+                |> Seq.append playerCards
+                |> Seq.distinct
+
+            return playerCards
+        }
+
