@@ -28,7 +28,7 @@ module CardsFixture =
         
             Cards.getStarterCards ()
             |> Seq.length
-            |> should equal 30
+            |> should equal 105
         }
 
     [<Fact>]
@@ -65,5 +65,5 @@ module CardsFixture =
 
             cards
             |> Seq.length
-            |> should equal 87
+            |> should equal 125
         }
