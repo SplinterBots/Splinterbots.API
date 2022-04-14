@@ -7,25 +7,11 @@ module Cards =
 
     type Card =
         {
-           card_detail_id: string
+           card_detail_id: int
            gold: bool
            level: int
            player: string
            uid: string
-        }
-
-    type PlayerCardCollection = 
-        {
-            player: string
-            cards: Card array
-        }
-
-    let getPlayerCollection playerName =
-        async {
-            let uri = getCardsUri $"collection/{playerName}"
-            let! cards = executeApiCall<PlayerCardCollection> uri
-
-            return cards.cards
         }
 
     let filterCardsByOwningPlayer playerName (cards: Card seq) = 
@@ -81,5 +67,13 @@ module Cards =
             sprintf "starter-%i-%s" cardId (API.generateRandomString 5)
         cardsList 
         |> Seq.filter (fun card -> card.is_starter)
-        |> Seq.map (fun card -> {card_detail_id = (getStarterCardId card.id); gold = false; level = 1; player = "starter"; uid = card.id.ToString()})
+        |> Seq.map (fun card -> {card_detail_id = card.id; gold = false; level = 1; player = "starter"; uid = (getStarterCardId card.id)})
+    
+    let getPlayerCards playerName =
+        async {
+            let uri = getCardsUri $"collection/{playerName}"
+            let! cards = executeApiCall<{|player: string;cards: Card seq; |}> uri
+    
+            return cards.cards
+        }
 

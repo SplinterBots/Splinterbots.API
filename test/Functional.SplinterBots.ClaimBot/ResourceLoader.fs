@@ -6,6 +6,7 @@ open System.Reflection
 let embeddedResource (name: string) = 
     let assembly = Assembly.GetExecutingAssembly ()
     let assemblyName = assembly.GetName ()
+    let names = assembly.GetManifestResourceNames ()
     let stream = assembly.GetManifestResourceNames ()
     use reader = new StreamReader(assembly.GetManifestResourceStream($"{assemblyName.Name}.{name}"))
     let content = reader.ReadToEnd ()

@@ -21,6 +21,7 @@
     <Compile Include="API\SplinterFixture.fs" />
     <EmbeddedResource Include="API\GitHubReleases.json" />
     <EmbeddedResource Include="API\Cards.GetDetails.json" />
+    <EmbeddedResource Include="API\Cards.Collection.json" />
     <EmbeddedResource Include="API\Messages.ABCDEF1234.json" />
     <EmbeddedResource Include="API\Messages.NOTVALID.json" />
     <EmbeddedResource Include="API\Login.json" />
