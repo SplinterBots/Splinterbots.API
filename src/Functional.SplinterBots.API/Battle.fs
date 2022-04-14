@@ -126,10 +126,8 @@ module Battle =
             let operations = API.createCustomJsonPostingKey playerName "sm_team_reveal" transactionPayload
             let transactionData = API.hive.create_transaction([| operations|], [| postingKey |]);
             let postData = getStringForSplinterlandsAPI transactionData
-            let! battleData = API.executeApiPostCall<StartBattleInfo> API.battleUri postData
-            let transaction = battleData.id
-
-            return (secret, transaction)
+            let! _ = API.executeApiPostCall<StartBattleInfo> API.battleUri postData
+            ()
         }
     
     type OutstandingMatch = 
