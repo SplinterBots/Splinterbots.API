@@ -7,7 +7,7 @@ module Cards =
 
     type Card =
         {
-           card_detail_id: int
+           card_detail_id: string
            gold: bool
            level: int
            player: string
@@ -77,7 +77,9 @@ module Cards =
         rawCardsData
 
     let getStarterCards () =
-          cardsList 
-          |> Seq.filter (fun card -> card.is_starter)
-          |> Seq.map (fun card -> {card_detail_id = card.id; gold = false; level = 1; player = ""; uid = card.id.ToString()})
+        let getStarterCardId cardId =
+            sprintf "starter-%i-%s" cardId (API.generateRandomString 5)
+        cardsList 
+        |> Seq.filter (fun card -> card.is_starter)
+        |> Seq.map (fun card -> {card_detail_id = (getStarterCardId card.id); gold = false; level = 1; player = "starter"; uid = card.id.ToString()})
 
