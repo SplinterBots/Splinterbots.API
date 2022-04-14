@@ -87,6 +87,6 @@ module Cards =
                 |> Seq.append starterCards
                 |> Seq.distinctBy (fun card -> card.card_detail_id)
 
-            return playerCards
+            return playableCards
         }
 
