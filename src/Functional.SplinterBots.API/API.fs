@@ -65,7 +65,6 @@ module API =
             return! JsonSerializer.DeserializeAsync<'T>(responseStream).AsTask() |> Async.AwaitTask   
         }
 
-    
     let executeApiPostCall<'T> url payload = 
         async {
             let! response =
@@ -81,12 +80,20 @@ module API =
             return! JsonSerializer.DeserializeAsync<'T>(responseStream).AsTask() |> Async.AwaitTask 
         }
 
-
     let generateRandomString numebrOfCharacters = 
         let randomizer = Random()
         let chars = Array.concat([[|'a' .. 'z'|];[|'A' .. 'Z'|];[|'0' .. '9'|]])
         let sz = Array.length chars in
         String(Array.init numebrOfCharacters (fun _ -> chars.[randomizer.Next sz])).ToString()
+
+    let generateMD5Hash (input: string) =
+        use md5 = System.Security.Cryptography.MD5.Create()
+        let inputBytes = System.Text.Encoding.ASCII.GetBytes input
+        let hash = md5.ComputeHash inputBytes
+
+        hash
+        |> Seq.map (fun byte -> byte.ToString("x2"))
+        |> String.concat ""
 
     let private createCustomJson username activeKey postingKey methodName json = 
         new COperations.custom_json (
