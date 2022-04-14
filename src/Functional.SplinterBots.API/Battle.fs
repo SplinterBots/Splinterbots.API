@@ -79,7 +79,7 @@ module Battle =
     let getPlayableCard  (cards: Cards.Card seq) cardId =
         cards |> Seq.find (fun card -> card.card_detail_id = cardId)
 
-    let submitTeam (ownedCards: Cards.Card seq) playerName postingKey transactionId (team: TeamSelection) =
+    let submitTeam ownedCards playerName postingKey transactionId team =
         async {
             let summoner = 
                 let summoner = getPlayableCard ownedCards team.summoner_id
@@ -106,6 +106,32 @@ module Battle =
             return (secret, transaction)
         }
 
+    let revealTeam ownedCards playerName postingKey transactionId team secret =
+        async {
+            let summoner = 
+                let summoner = getPlayableCard ownedCards team.summoner_id
+                summoner.uid
+            let monsters = 
+                team.monsters
+                |> Seq.map (getPlayableCard ownedCards)
+                |> Seq.map (fun card -> card.uid)
+                |> String.concat ","
+
+            let transactionPayload = 
+                sprintf """{"trx_id":"%s","summoner":"%s","monsters":[%s],"secret":"%s","app":"%s","n":"%s"}"""
+                    transactionId
+                    summoner
+                    monsters
+                    secret
+            let operations = API.createCustomJsonPostingKey playerName "sm_team_reveal" transactionPayload
+            let transactionData = API.hive.create_transaction([| operations|], [| postingKey |]);
+            let postData = getStringForSplinterlandsAPI transactionData
+            let! battleData = API.executeApiPostCall<StartBattleInfo> API.battleUri postData
+            let transaction = battleData.id
+
+            return (secret, transaction)
+        }
+    
     type OutstandingMatch = 
         {
             id: string 
