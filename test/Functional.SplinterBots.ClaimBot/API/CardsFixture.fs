@@ -65,5 +65,5 @@ module CardsFixture =
 
             cards
             |> Seq.length
-            |> should equal 65
+            |> should equal 87
         }
