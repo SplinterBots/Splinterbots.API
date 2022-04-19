@@ -139,11 +139,11 @@ module Battle =
             team_hash: string option  
             match_type: string 
             mana_cap: int 
-            opponent: string 
-            match_block_num: int 
+            //opponent: string 
+            //match_block_num: int 
             status: int 
             reveal_tx: obj 
-            reveal_block_id: obj 
+            //reveal_block_id: obj 
             team: obj 
             summoner_level: obj 
             ruleset: string 
