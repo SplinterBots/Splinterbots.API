@@ -82,7 +82,7 @@ module API =
 
     let generateRandomString numebrOfCharacters = 
         let randomizer = Random()
-        let chars = Array.concat([[|'a' .. 'z'|];[|'A' .. 'Z'|];[|'0' .. '9'|]])
+        let chars = "0123456789abcdefghijklmnopqrstuvwxyz".ToCharArray()
         let sz = Array.length chars in
         String(Array.init numebrOfCharacters (fun _ -> chars.[randomizer.Next sz])).ToString()
 
