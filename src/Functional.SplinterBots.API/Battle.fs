@@ -42,10 +42,16 @@ module Battle =
             return battleResult.battles
         }
 
+    let hashSelectedTeam summoner monsters secret =
+        let combinedMonsters = String.concat "," monsters 
+        let teamHash = API.generateMD5Hash (sprintf "%s,%s,%s" summoner combinedMonsters secret)
+        teamHash
+
     type StartBattleInfo =
         {
             success: bool 
             id: string 
+            error: string
         }
         
     let private getStringForSplinterlandsAPI (transaction: CHived.CtransactionData) = 
@@ -54,7 +60,7 @@ module Battle =
             json
                 .Replace("operations\":[{", "operations\":[[\"custom_json\",{")
                 .Replace(",\"opid\":18}", "}]")
-        let postData = sprintf "signed_tx=%s" fixedJson
+        let postData = sprintf "signed_tx: %s" fixedJson
         postData
 
     let startNextMatch playerName postingKey =
