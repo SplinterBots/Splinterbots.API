@@ -11,7 +11,7 @@ module API =
     open FsHttp.DslCE
     open FsHttp.Response
 
-    let applicationIdentifier = "SplinterBots/0.9"
+    let applicationIdentifier = "splinterlands/0.7.139"
     let hiveApi = "anyx.io"
     let hiveNodeUrl = $"https://{hiveApi}"
 
