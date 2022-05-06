@@ -8,7 +8,7 @@ stages:
           - task: UseDotNet@2
             inputs:
               packageType: 'sdk'
-              version: '6.0.201'
+              version: '6.0.202'
               includePreviewVersions: true
           - task: CmdLine@2
             displayName: 'Restore dotnet tools'

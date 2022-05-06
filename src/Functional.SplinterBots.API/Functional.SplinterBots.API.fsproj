@@ -20,7 +20,6 @@
         <Compile Include="Quest.fs" />
         <Compile Include="Market.fs" />
         <Compile Include="Leaderboard.fs" />
-        <Compile Include="Battle.fs" />
         <Compile Include="Splinters.fs" />
     </ItemGroup>
 
