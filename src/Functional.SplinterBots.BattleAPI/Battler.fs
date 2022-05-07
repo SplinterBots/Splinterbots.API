@@ -6,6 +6,7 @@ open System.Collections.Generic
 open Newtonsoft.Json.Linq
 open Functional.SplinterBots.API
 open Functional.SplinterBots.BattleAPI.WebSocket
+open System.Threading.Tasks
 
 module Battler =
     type Username = string
@@ -22,10 +23,50 @@ module Battler =
                 success = token.["success"].ToObject<bool>()
             }
 
+    type MatchDetails =
+        {
+            id: string
+        }
+    module MatchDetails =
+        let bind (token: JToken) =
+            {
+                id = ""
+            }
+   
+    type Team =
+        {
+            id: string
+        }
+   
     type StartFight = Username -> PostingKey -> Async<Transaction>
-    type GetTeam = Username -> unit
-    type SubmitTeam = Username -> unit
-    type RevealTeam = Username -> unit 
+    type GetTeam = MatchDetails -> Async<Team>
+    type SubmitTeam = Team -> Async<Transaction>
+    type RevealTeam = Team -> Async<Transaction> 
+
+    let fight 
+            (startFight: StartFight) 
+            (getTeam: GetTeam) 
+            (submitTeam: SubmitTeam) 
+            (revealTeam: RevealTeam)
+            (webSocket: WebSocketListener)
+            (username: Username)
+            (postingKey: PostingKey) =
+        async {
+            let! transaction = startFight username postingKey
+            let! _ = webSocket.WaitForTransaction transaction.id
+            let! _ = webSocket.WaitForGamesState GameState.match_found 
+
+            let matchDetails = webSocket.GetState GameState.match_found |> MatchDetails.bind
+            let! team = getTeam matchDetails
+
+            do! (Task.Delay 8000 |> Async.AwaitTask)
+
+            let! submitedTeam = submitTeam team
+            let! _ = webSocket.WaitForTransaction submitedTeam.id
+
+            let! revealedTeam = revealTeam team
+            ()
+        }
 
     let startNewMatch username postingkey =
         async {
@@ -44,42 +85,4 @@ module Battler =
         | Ok
         | Error
 
-    let rec waitForTransaction (webSocket: WebSocketListener) transactionId attempts =  
-        async {
-            let timeToWait = (10 - attempts) * 1000 * 2
-            do! Async.Sleep timeToWait
 
-            let transactionExists = webSocket.ContainsState GameState.transaction_complete 
-
-            match transactionExists with 
-            | true -> 
-                let completedTransaction = webSocket.GetState GameState.transaction_complete 
-                let previousTtransaction = completedTransaction.["trx_info"] |> Transaction.bind
-
-                match previousTtransaction.id = transactionId && previousTtransaction.success with
-                | true -> 
-                    return Ok
-                | _ -> 
-                    return Error
-            | _ -> 
-                match attempts with 
-                | 0 -> 
-                    return Error 
-                | _ -> 
-                    return! waitForTransaction webSocket transactionId (attempts - 1)
-        }
-    let fight 
-            (startFight: StartFight) 
-            (getTeam: GetTeam) 
-            (submitTeam: SubmitTeam) 
-            (revealTeam: RevealTeam)
-            (webSocket: WebSocket.WebSocketListener)
-            (username: Username)
-            (postingKey: PostingKey) =
-        async {
-            let! transaction = startFight username postingKey
-
-            let! result = waitForTransaction webSocket transaction.id 10
-            
-            ()
-        }
