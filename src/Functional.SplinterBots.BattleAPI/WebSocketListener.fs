@@ -19,12 +19,6 @@ module WebSocket =
         | battle_cancelled = 8
         | received_gifts = 9
 
-    let generateRandomString numebrOfCharacters = 
-        let randomizer = Random()
-        let chars = "0123456789abcdefghijklmnopqrstuvwxyz".ToCharArray()
-        let sz = Array.length chars in
-        String(Array.init numebrOfCharacters (fun _ -> chars.[randomizer.Next sz])).ToString()
-
     type WebSocketListener (url: string, username: string, accessToken: string) = 
         let client = new WebsocketClient(new Uri(url))
         let gamesStates = new Dictionary<GameState, JToken>()
@@ -43,7 +37,7 @@ module WebSocket =
                     gamesStates[state] <- json.["data"]
             
         let authenticate (client: WebsocketClient) username accessToken = 
-            let sessionId = generateRandomString 10
+            let sessionId = Generator.generateRandomString 10
             let message = 
                 sprintf 
                     "{\"type\":\"auth\",\"player\":\"%s\",\"access_token\":\"%s\",\"session_id\":\"%s\"}"

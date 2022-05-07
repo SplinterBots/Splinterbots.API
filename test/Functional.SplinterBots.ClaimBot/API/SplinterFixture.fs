@@ -7,7 +7,6 @@ open Functional.SplinterBots.API
 open HttpClientMock
 open FSHttpMock
 open ResourceLoader
-open Functional.SplinterBots.API.Battle
 
 module SplinterFixture =
 

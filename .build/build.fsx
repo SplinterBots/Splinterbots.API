@@ -28,8 +28,13 @@ Target.create "Publish" (fun _ ->
     files |> Seq.iter (fun file -> Shell.copyFile "./artifacts/" file)
 )
 Target.create "Build" (fun _ ->
+    let packConfiguration (defaults:DotNet.PackOptions) =
+        { defaults with
+              Configuration = DotNet.Release
+              IncludeSymbols = true }
+
     !! "src/**/*.fsproj"
-    |> Seq.iter (DotNet.build id)
+    |> Seq.iter (DotNet.pack packConfiguration)
 )
 
 "Clean"

@@ -11,7 +11,6 @@
     <Compile Include="ResourceLoader.fs" />
     <Compile Include="FSHttpMock.fs" />
     <None Include="Program.fs" />
-    <Compile Include="API\BattleFixture.fs" />
     <Compile Include="API\CardsFixture.fs" />
     <Compile Include="API\LoginFixture.fs" />
     <Compile Include="API\SettingsFixture.fs" />
