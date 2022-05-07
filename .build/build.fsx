@@ -23,18 +23,14 @@ Target.create "Clean" (fun _ ->
 Target.create "Publish" (fun _ ->
     let files = 
         !! "src/**/*.nupkg"
+        ++ "src/**/*.snupkg"
         |> Array.ofSeq
 
     files |> Seq.iter (fun file -> Shell.copyFile "./artifacts/" file)
 )
 Target.create "Build" (fun _ ->
-    let packConfiguration (defaults:DotNet.PackOptions) =
-        { defaults with
-              Configuration = DotNet.Release
-              IncludeSymbols = true }
-
     !! "src/**/*.fsproj"
-    |> Seq.iter (DotNet.pack packConfiguration)
+    |> Seq.iter (DotNet.build id)
 )
 
 "Clean"
