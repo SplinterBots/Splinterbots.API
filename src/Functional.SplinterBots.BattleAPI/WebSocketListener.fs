@@ -95,7 +95,7 @@ module WebSocket =
                     | 0 -> 
                         return Error 
                     | _ -> 
-                        return! waitForTransaction webSocket transactionId (attempts - 1)
+                        return! waitForTransaction transactionId (attempts - 1)
             }
 
         do 
