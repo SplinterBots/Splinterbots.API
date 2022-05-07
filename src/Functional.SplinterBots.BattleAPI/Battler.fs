@@ -11,33 +11,7 @@ open System.Threading.Tasks
 module Battler =
     type Username = string
     type PostingKey = string
-    type Transaction = 
-        {
-            id: string
-            success: bool
-        }
-    module Transaction = 
-        let bind (token: JToken) =
-            {
-                id = token.["id"].ToString()
-                success = token.["success"].ToObject<bool>()
-            }
-
-    type MatchDetails =
-        {
-            id: string
-        }
-    module MatchDetails =
-        let bind (token: JToken) =
-            {
-                id = ""
-            }
-   
-    type Team =
-        {
-            id: string
-        }
-   
+    
     type StartFight = Username -> PostingKey -> Async<Transaction>
     type GetTeam = MatchDetails -> Async<Team>
     type SubmitTeam = Team -> Async<Transaction>
@@ -84,5 +58,3 @@ module Battler =
     type WaitResult = 
         | Ok
         | Error
-
-

@@ -12,6 +12,9 @@
     <ItemGroup>
         <Compile Include="Generator.fs" />
         <Compile Include="WebSocketListener.fs" />
+        <Compile Include="Team.fs" />
+        <Compile Include="Transaction.fs" />
+        <Compile Include="MatchDetails.fs" />
         <Compile Include="Battler.fs" />
     </ItemGroup>
 

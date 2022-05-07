@@ -1,9 +1,6 @@
 ﻿namespace Functional.SplinterBots.BattleAPI
 
-open Websocket.Client
 open System
-open System.Collections.Generic
-open Newtonsoft.Json.Linq
 open Newtonsoft.Json
 
 module Generator =
