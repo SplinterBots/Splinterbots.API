@@ -32,3 +32,4 @@ stages:
               nuGetFeedType: 'external'
               publishFeedCredentials: 'SplinterbotsNugetOrg'
               allowPackageConflicts: true
+              SkipDuplicate: true
