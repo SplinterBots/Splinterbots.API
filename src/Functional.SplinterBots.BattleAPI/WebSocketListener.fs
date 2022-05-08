@@ -61,7 +61,7 @@ module WebSocket =
                 let timeToWait = (10 - attempts) * 1000 * 2
                 do! Async.Sleep timeToWait
 
-                let gameStateExists = containsState GameState.transaction_complete 
+                let gameStateExists = containsState state 
 
                 match gameStateExists with 
                 | true -> 
