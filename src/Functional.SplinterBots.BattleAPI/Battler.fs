@@ -11,11 +11,11 @@ open System.Threading.Tasks
 module Battler =
     type Username = string
     type PostingKey = string
-    
+        
     type StartFight = Username -> PostingKey -> Async<Transaction>
     type GetTeam = MatchDetails -> Async<Team>
-    type SubmitTeam = Team -> Async<Transaction>
-    type RevealTeam = Team -> Async<Transaction> 
+    type SubmitTeam = Transaction -> Team -> Async<Transaction>
+    type RevealTeam = Transaction -> Team -> Async<Transaction> 
 
     let fight 
             (startFight: StartFight) 
@@ -35,10 +35,10 @@ module Battler =
 
             do! (Task.Delay 8000 |> Async.AwaitTask)
 
-            let! submitedTeam = submitTeam team
+            let! submitedTeam = submitTeam transaction team
             let! _ = webSocket.WaitForTransaction submitedTeam.id
 
-            let! revealedTeam = revealTeam team
+            let! revealedTeam = revealTeam transaction team
             ()
         }
 

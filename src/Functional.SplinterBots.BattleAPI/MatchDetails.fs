@@ -12,6 +12,7 @@ type MatchDetails =
         opponentLookupName: string 
         gameHashId: string
     }
+
 module MatchDetails =
     let bind (matchDetails: JToken) =
         let gameIdPlayer = matchDetails["id"].ToString()
