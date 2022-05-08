@@ -10,8 +10,8 @@ module Cards =
            card_detail_id: int
            gold: bool
            level: int
+           card_long_id: string
            player: string
-           uid: string
         }
 
     let filterCardsByOwningPlayer playerName (cards: Card seq) = 
@@ -63,34 +63,34 @@ module Cards =
         rawCardsData
         
         
-    let private starterCardsList = 
-        [157; 158; 159; 160; 395; 396; 397; 398; 399; 161; 162; 163; 167; 400; 401; 402; 403; 440; 168; 169; 170; 171; 381; 382; 383; 384; 385; 172; 173; 174; 178; 386; 387; 388; 389; 437; 179; 180; 181; 182; 367; 368; 369; 370; 371; 183; 184; 185; 189; 372; 373; 374; 375; 439; 146; 147; 148; 149; 409; 410; 411; 412; 413; 150; 151; 152; 156; 414; 415; 416; 417; 135; 135; 136; 137; 138; 353; 354; 355; 356; 357; 139; 140; 141; 145; 358; 359; 360; 361; 438; 224; 190; 191; 192; 157; 423; 424; 425; 426; 194; 195; 196; 427; 428; 429;]
+    //let private starterCardsList = 
+    //    [157; 158; 159; 160; 395; 396; 397; 398; 399; 161; 162; 163; 167; 400; 401; 402; 403; 440; 168; 169; 170; 171; 381; 382; 383; 384; 385; 172; 173; 174; 178; 386; 387; 388; 389; 437; 179; 180; 181; 182; 367; 368; 369; 370; 371; 183; 184; 185; 189; 372; 373; 374; 375; 439; 146; 147; 148; 149; 409; 410; 411; 412; 413; 150; 151; 152; 156; 414; 415; 416; 417; 135; 135; 136; 137; 138; 353; 354; 355; 356; 357; 139; 140; 141; 145; 358; 359; 360; 361; 438; 224; 190; 191; 192; 157; 423; 424; 425; 426; 194; 195; 196; 427; 428; 429;]
 
-    let getStarterCards () =
-        let getStarterCardId cardId =
-            sprintf "starter-%i-%s" cardId (API.generateRandomString 5)
+    //let getStarterCards () =
+    //    let getStarterCardId cardId =
+    //        sprintf "starter-%i-%s" cardId (API.generateRandomString 5)
 
-        starterCardsList
-        |> Seq.map (fun cardId -> {card_detail_id = cardId; gold = false; level = 1; player = "starter"; uid = (getStarterCardId cardId)})
+    //    starterCardsList
+    //    |> Seq.map (fun cardId -> {card_detail_id = cardId; gold = false; level = 1; player = "starter"; uid = (getStarterCardId cardId)})
     
-    let getPlayerCards playerName =
-        async {
-            let uri = getCardsUri $"collection/{playerName}"
-            let! cards = executeApiCall<{|player: string;cards: Card seq; |}> uri
+    //let getPlayerCards playerName =
+    //    async {
+    //        let uri = getCardsUri $"collection/{playerName}"
+    //        let! cards = executeApiCall<{|player: string;cards: Card seq; |}> uri
     
-            return cards.cards
-        }
+    //        return cards.cards
+    //    }
 
-    let getAvailableCardsForPlayer playerName =
-        async {
-            let starterCards = getStarterCards ()
-            let! playerCards = getPlayerCards playerName
+    //let getAvailableCardsForPlayer playerName =
+    //    async {
+    //        let starterCards = getStarterCards ()
+    //        let! playerCards = getPlayerCards playerName
 
-            let playableCards = 
-                playerCards
-                |> Seq.append starterCards
-                |> Seq.distinctBy (fun card -> card.card_detail_id)
+    //        let playableCards = 
+    //            playerCards
+    //            |> Seq.append starterCards
+    //            |> Seq.distinctBy (fun card -> card.card_detail_id)
 
-            return playableCards
-        }
+    //        return playableCards
+    //    }
 

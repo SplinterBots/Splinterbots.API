@@ -20,49 +20,49 @@ module CardsFixture =
             |> should equal 450
         }
 
-    [<Fact>]
-    let `` Can get starter cards`` () =
-        async {
-            FsHttp.initialiseMocking ()
+    //[<Fact>]
+    //let `` Can get starter cards`` () =
+    //    async {
+    //        FsHttp.initialiseMocking ()
         
-            Cards.getStarterCards ()
-            |> Seq.length
-            |> should equal 105
-        }
+    //        Cards.getStarterCards ()
+    //        |> Seq.length
+    //        |> should equal 105
+    //    }
 
-    [<Fact>]
-    let ``Starter cards have the started card id`` () =
-        async {
-            FsHttp.initialiseMocking ()
+    //[<Fact>]
+    //let ``Starter cards have the started card id`` () =
+    //    async {
+    //        FsHttp.initialiseMocking ()
             
-            let startedCard =
-                Cards.getStarterCards ()
-                |> Seq.head
+    //        let startedCard =
+    //            Cards.getStarterCards ()
+    //            |> Seq.head
 
-            startedCard.uid
-            |> should startWith "starter-"
-        }
+    //        startedCard.uid
+    //        |> should startWith "starter-"
+    //    }
 
-    [<Fact>]
-    let ``Players cards have the non started card id`` () =
-        async {
-            FsHttp.initialiseMocking ()
+    //[<Fact>]
+    //let ``Players cards have the non started card id`` () =
+    //    async {
+    //        FsHttp.initialiseMocking ()
         
-            let! startedCard = Cards.getPlayerCards "ThePlayer"
-            let startedCard = startedCard |> Seq.head
+    //        let! startedCard = Cards.getPlayerCards "ThePlayer"
+    //        let startedCard = startedCard |> Seq.head
 
-            startedCard.uid
-            |> should not' (startWith "starter-")
-        }
+    //        startedCard.uid
+    //        |> should not' (startWith "starter-")
+    //    }
 
-    [<Fact>]
-    let ``Can merge all available cards`` () =
-        async {
-            FsHttp.initialiseMocking ()
+    //[<Fact>]
+    //let ``Can merge all available cards`` () =
+    //    async {
+    //        FsHttp.initialiseMocking ()
             
-            let! cards = Cards.getAvailableCardsForPlayer "ThePlayer"
+    //        let! cards = Cards.getAvailableCardsForPlayer "ThePlayer"
 
-            cards
-            |> Seq.length
-            |> should equal 125
-        }
+    //        cards
+    //        |> Seq.length
+    //        |> should equal 125
+    //    }
