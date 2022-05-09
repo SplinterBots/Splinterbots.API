@@ -9,11 +9,12 @@ type Team (summoner: Cards.Card, team: Cards.Card seq) =
             team
             |> Seq.map (fun monster -> monster.card_long_id)
             |> String.concat ","
-        sprintf "%s,%s,%s"
-            summoner.card_long_id
-            monstersString
-            secret
-        |> generateMD5Hash
+        let toHash = 
+            sprintf "%s,%s,%s"
+                summoner.card_long_id
+                monstersString
+                secret
+        generateMD5Hash toHash
 
     member this.Summoner 
         with get () = summoner
