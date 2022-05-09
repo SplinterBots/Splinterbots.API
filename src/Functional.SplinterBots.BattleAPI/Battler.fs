@@ -15,7 +15,7 @@ module Battler =
     type StartFight = Username -> PostingKey -> Async<Transaction>
     type GetTeam = MatchDetails -> Async<Team>
     type SubmitTeam = Transaction -> Team -> Async<Transaction>
-    type RevealTeam = Transaction -> Team -> Async<Transaction> 
+    type RevealTeam = Transaction -> Team -> Async<unit> 
 
     let fight 
             (startFight: StartFight) 

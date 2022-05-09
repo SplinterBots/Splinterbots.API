@@ -4,15 +4,15 @@ open Functional.SplinterBots.API
   
 type Team (summoner: Cards.Card, team: Cards.Card seq) =
     let secret = API.generateRandomString 10
+    let getMonstersIdList () = 
+        team
+        |> Seq.map (fun monster -> monster.card_long_id)
+        |> String.concat ","
     let teamHash =
-        let monstersString = 
-            team
-            |> Seq.map (fun monster -> monster.card_long_id)
-            |> String.concat ","
         let toHash = 
             sprintf "%s,%s,%s"
                 summoner.card_long_id
-                monstersString
+                (getMonstersIdList ())
                 secret
         generateMD5Hash toHash
 
@@ -24,3 +24,5 @@ type Team (summoner: Cards.Card, team: Cards.Card seq) =
         with get () = secret
     member this.TeamHash
         with get () = teamHash
+    member this.MonstersIdList () =
+        getMonstersIdList ()
