@@ -80,12 +80,6 @@ module API =
             return! JsonSerializer.DeserializeAsync<'T>(responseStream).AsTask() |> Async.AwaitTask 
         }
 
-    let generateRandomString numebrOfCharacters = 
-        let randomizer = Random()
-        let chars = "0123456789abcdefghijklmnopqrstuvwxyz".ToCharArray()
-        let sz = Array.length chars in
-        String(Array.init numebrOfCharacters (fun _ -> chars.[randomizer.Next sz])).ToString()
-
     let generateMD5Hash (input: string) =
         use md5 = System.Security.Cryptography.MD5.Create()
         let inputBytes = System.Text.Encoding.ASCII.GetBytes input
@@ -103,11 +97,11 @@ module API =
             required_posting_auths = setToUserNameWhenTrue username postingKey)
 
     let createCustomJsonActiveKey username methodName getJson = 
-        let json = getJson applicationIdentifier (generateRandomString 10)
+        let json = getJson applicationIdentifier (Randomizer.generateRandomString 10)
         createCustomJson username true false methodName json
 
     let createCustomJsonPostingKey username methodName getJson = 
-        let json = getJson applicationIdentifier (generateRandomString 10)
+        let json = getJson applicationIdentifier (Randomizer.generateRandomString 10)
         createCustomJson username false true methodName json
         
     type TransactionId = string

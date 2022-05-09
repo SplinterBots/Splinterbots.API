@@ -6,8 +6,8 @@ module Login =
 
     let private getUri name key = 
         let (ts, signature) = Signature.sign name key 
-        let bid = "bid_" + API.generateRandomString 20
-        let sid = "sid_" + API.generateRandomString 20
+        let bid = "bid_" + Randomizer.generateRandomString 20
+        let sid = "sid_" + Randomizer.generateRandomString 20
         let parameters = 
             $"name={name}&ref=&browser_id={bid}&session_id={sid}&sig={signature}&ts={ts}"
         getPlayerUri "login" parameters

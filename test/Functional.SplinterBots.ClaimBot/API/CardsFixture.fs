@@ -8,17 +8,17 @@ open HttpClientMock
 open FSHttpMock
 open ResourceLoader
 
-module CardsFixture =
+//module CardsFixture =
 
-    [<Fact>]
-    let ``Can get battle result`` () =
-        async {
-            FsHttp.initialiseMocking ()
+    //[<Fact>]
+    //let ``Can get battle result`` () =
+    //    async {
+    //        FsHttp.initialiseMocking ()
             
-            Cards.cardsList
-            |> Seq.length
-            |> should equal 450
-        }
+    //        Cards.cardsList
+    //        |> Seq.length
+    //        |> should equal 450
+    //    }
 
     //[<Fact>]
     //let `` Can get starter cards`` () =

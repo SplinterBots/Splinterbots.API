@@ -96,7 +96,7 @@ module Quest =
 
     let claimQuest questId playerName postingKey = 
         async {
-            let randomNumber = API.generateRandomString 10
+            let randomNumber = Randomizer.generateRandomString 10
             let transactionPayload  = 
                 sprintf "{\"type\":\"quest\",\"quest_id\":\"%s\",\"app\":\"%s\",\"n\":\"%s\"}" 
                     questId 
@@ -106,7 +106,7 @@ module Quest =
         }
     let startNewQuest playerName postingKey = 
         async {
-            let randomNumber = API.generateRandomString 10
+            let randomNumber = Randomizer.generateRandomString 10
             let transactionPayload  = sprintf "{\"type\":\"daily\",\"app\":\"%s\",\"n\":\"%s\"}" 
             let operations = API.createCustomJsonPostingKey playerName "sm_start_quest" transactionPayload
             API.hive.broadcast_transaction([| operations |] , [| postingKey |]) |> ignore
@@ -139,7 +139,7 @@ module LastSeasonRewards =
         }
     let claimSeason seasonId playerName postingKey = 
         async {
-            let randomNumber = API.generateRandomString 10
+            let randomNumber = Randomizer.generateRandomString 10
             let transactionPayload  = 
                 sprintf "{\"type\":\"league_season\",\"season\":%i,\"app\":\"%s\",\"n\":\"%s\"}"
                     seasonId 

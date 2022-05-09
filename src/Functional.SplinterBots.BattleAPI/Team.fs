@@ -1,9 +1,10 @@
 ﻿namespace Functional.SplinterBots.BattleAPI
 
 open Functional.SplinterBots.API
+open Functional.SplinterBots.API.CardTypes
   
-type Team (summoner: Cards.Card, team: Cards.Card seq) =
-    let secret = API.generateRandomString 10
+type Team (summoner: Card, team: Card seq) =
+    let secret = Randomizer.generateRandomString 10
     let getMonstersIdList () = 
         team
         |> Seq.map (fun monster -> monster.card_long_id)
