@@ -22,9 +22,7 @@ module Battler =
             (getTeam: GetTeam) 
             (submitTeam: SubmitTeam) 
             (revealTeam: RevealTeam)
-            (webSocket: WebSocketListener)
-            (username: Username)
-            (postingKey: PostingKey) =
+            (webSocket: WebSocketListener) =
         async {
             let! transaction = startFight ()
             do! webSocket.WaitForTransaction transaction.id
