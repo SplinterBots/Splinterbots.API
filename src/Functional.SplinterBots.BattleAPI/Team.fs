@@ -24,5 +24,3 @@ type Team (summoner: Cards.Card, team: Cards.Card seq) =
         with get () = secret
     member this.TeamHash
         with get () = teamHash
-    member this.MonstersIdList () =
-        getMonstersIdList ()

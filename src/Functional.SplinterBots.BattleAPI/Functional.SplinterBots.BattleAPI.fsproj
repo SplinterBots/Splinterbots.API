@@ -6,10 +6,11 @@
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <Version>1.8.20</Version>
+        <Version>1.8.21</Version>
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="API.fs" />
         <Compile Include="Generator.fs" />
         <Compile Include="WebSocketListener.fs" />
         <Compile Include="Team.fs" />

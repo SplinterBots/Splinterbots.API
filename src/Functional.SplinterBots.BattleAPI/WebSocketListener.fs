@@ -18,6 +18,10 @@ module WebSocket =
         | quest_progress = 7
         | battle_cancelled = 8
         | received_gifts = 9
+    
+    type ListnerResult =
+        | Found
+        | NotFound
 
     let private bindTransaction (token: JToken) =
         {|
@@ -61,17 +65,14 @@ module WebSocket =
                 let timeToWait = (10 - attempts) * 1000 * 2
                 do! Async.Sleep timeToWait
 
-                let gameStateExists = containsState state 
+                let gameStateExists = containsState state
 
                 match gameStateExists with 
-                | true -> 
-                    return Ok
+                | true -> return Found
                 | _ -> 
                     match attempts with 
-                    | 0 -> 
-                        return Error 
-                    | _ -> 
-                        return! waitForGameState state (attempts - 1)
+                    | 0 -> return NotFound 
+                    | _ -> return! waitForGameState state (attempts - 1)
             }
         let rec waitForTransaction transactionId attempts =  
             async {
@@ -86,36 +87,28 @@ module WebSocket =
                     let previousTtransaction = completedTransaction.["trx_info"] |> bindTransaction
 
                     match previousTtransaction.id = transactionId && previousTtransaction.success with
-                    | true -> 
-                        return Ok
-                    | _ -> 
-                        return Error
+                    | true -> return Found
+                    | _ -> return NotFound
                 | _ -> 
                     match attempts with 
-                    | 0 -> 
-                        return Error 
-                    | _ -> 
-                        return! waitForTransaction transactionId (attempts - 1)
+                    | 0 -> return NotFound 
+                    | _ -> return! waitForTransaction transactionId (attempts - 1)
             }
 
-        do 
-            client.ReconnectTimeout <- TimeSpan.FromMinutes 5
-            
         member this.Start () =
             async {
+                client.ReconnectTimeout <- TimeSpan.FromMinutes 5
                 do! client.Start() |> Async.AwaitTask
-
                 authenticate client username accessToken
             }
 
         member this.WaitForGamesState state = 
             async {
-                return! waitForGameState state 10
+                do! waitForGameState state 10 |> Async.Ignore
             }
-
         member this.WaitForTransaction transactionId = 
             async {
-                return waitForTransaction transactionId 10
+                do! waitForTransaction transactionId 10|> Async.Ignore
             }
 
         member this.GetState state =
