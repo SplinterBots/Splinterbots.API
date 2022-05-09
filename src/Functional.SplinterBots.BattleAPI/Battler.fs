@@ -42,31 +42,32 @@ module Battler =
         }
 
     let startNewMatch username postingkey =
-        async {
-            let json = sprintf "{\"match_type\":\"Ranked\",\"app\":\"%s\",\"n\":\"%s\"}"
-            let customJson = API.createCustomJsonPostingKey username "sm_find_match" json
-            let transaction = API.hive.create_transaction ([| customJson |], [| postingkey |])
-            let postData = Generator.getStringForSplinterlandsAPI transaction
-            let! response = API.executeApiPostCall<Transaction> API.battleUrl postData
-            return response
-        }
+        fun () -> 
+            async {
+                let customJson = 
+                    sprintf "{\"match_type\":\"Ranked\",\"app\":\"%s\",\"n\":\"%s\"}"
+                    |> API.createCustomJsonPostingKey username "sm_find_match"
+                let! response = 
+                    API.hive.create_transaction ([| customJson |], [| postingkey |])
+                    |> Generator.getStringForSplinterlandsAPI
+                    |> API.executeApiPostCall<Transaction> API.battleUrl 
+                return response
+            }
           
     let submitTeam username postingKey (transaction: Transaction) (team: Team) = 
         async {
-            let json = 
+            let custom_Json = 
                 sprintf "{\"trx_id\":\"%s\",\"team_hash\":\"%s\",\"app\":\"%s\",\"n\":\"%s\"}"
                     transaction.id
                     team.TeamHash
-
-            let custom_Json = API.createCustomJsonPostingKey username "sm_submit_team" json
-            let oTransaction = API.hive.create_transaction([| custom_Json |], [| postingKey |])
-
-            let postData = Generator.getStringForSplinterlandsAPI oTransaction
-               
-            let! response = API.executeApiPostCall<Transaction> API.battleUrl postData
+                |> API.createCustomJsonPostingKey username "sm_submit_team"
+            let! response = 
+                API.hive.create_transaction([| custom_Json |], [| postingKey |])
+                |> Generator.getStringForSplinterlandsAPI
+                |> API.executeApiPostCall<Transaction> API.battleUrl
             return response
-
         }
+
     let revealTeam username postingKey (transaction: Transaction) (team: Team) = 
         async {
             let monsters = 
@@ -82,8 +83,9 @@ module Battler =
                     team.Secret
 
             let custom_Json = API.createCustomJsonPostingKey username "sm_team_reveal" json
-            let oTransaction = API.hive.create_transaction([| custom_Json |], [| postingKey |])
-            let postData = Generator.getStringForSplinterlandsAPI oTransaction
+            let postData = 
+                API.hive.create_transaction([| custom_Json |], [| postingKey |])
+                |> Generator.getStringForSplinterlandsAPI 
                
             do! API.executeApiPostCall<Transaction> API.battleUrl postData |> Async.Ignore
         }
