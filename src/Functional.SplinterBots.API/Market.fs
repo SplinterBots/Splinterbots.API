@@ -96,4 +96,4 @@ module Market =
                 days
         let operations = Hive.createCustomJsonActiveKey playerName "sm_market_rent" transactionPayload
         let txid = Hive.brodcastTransaction operations activeKey
-        Hive.waitForTransaction playerName txid |> ignore
+        Hive.waitForTransaction playerName txid
