@@ -28,7 +28,6 @@ module CardTypes =
 module Cards =
 
     open System
-    open API
     open CardTypes
     open Urls
 
@@ -42,9 +41,9 @@ module Cards =
             sprintf "{\"to\":\"%s\",\"cards\":[%s],\"app\":\"%s\",\"n\":\"%s\"}"
                 destinationPlayerName
                 cardIds
-        let operations = API.createCustomJsonActiveKey playerName "sm_gift_cards" transactionPayload
-        let txid = API.hive.broadcast_transaction([| operations |] , [| activeKey |])
-        API.waitForTransaction playerName txid
+        let operations = Hive.createCustomJsonActiveKey playerName "sm_gift_cards" transactionPayload
+        let txid = Hive.brodcastTransaction operations activeKey
+        Hive.waitForTransaction playerName txid
 
 
     let private  allowPlayableCards username (card: RawCard) =
@@ -82,7 +81,7 @@ module Cards =
     let getPlayerCards username = 
         async {
             let cardsUri = $"{api2Uri}/cards/collection/{username}"
-            let! cards  = executeApiCall<PlayersCardCollection> cardsUri
+            let! cards  = Http.executeApiCall<PlayersCardCollection> cardsUri
             let playerCards = 
                 cards.cards
                 |> Seq.filter (allowPlayableCards username)

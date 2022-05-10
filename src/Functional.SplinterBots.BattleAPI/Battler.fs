@@ -18,11 +18,11 @@ module Battler =
         async {
             let customJson = 
                 sprintf "{\"match_type\":\"Ranked\",\"app\":\"%s\",\"n\":\"%s\"}"
-                |> API.createCustomJsonPostingKey username "sm_find_match"
+                |> Hive.createCustomJsonPostingKey username "sm_find_match"
             let! response = 
-                API.hive.create_transaction ([| customJson |], [| postingkey |])
+                Hive.createTransaction customJson postingkey
                 |> Generator.getStringForSplinterlandsAPI
-                |> API.executeApiPostCall<Transaction> API.battleUrl 
+                |> Http.executeApiPostCall<Transaction> Urls.battleUrl 
             return response
         }
               
@@ -32,11 +32,11 @@ module Battler =
                 sprintf "{\"trx_id\":\"%s\",\"team_hash\":\"%s\",\"app\":\"%s\",\"n\":\"%s\"}"
                     transaction.id
                     team.TeamHash
-                |> API.createCustomJsonPostingKey username "sm_submit_team"
+                |> Hive.createCustomJsonPostingKey username "sm_submit_team"
             let! response = 
-                API.hive.create_transaction([| custom_Json |], [| postingKey |])
+                Hive.createTransaction custom_Json postingKey
                 |> Generator.getStringForSplinterlandsAPI
-                |> API.executeApiPostCall<Transaction> API.battleUrl
+                |> Http.executeApiPostCall<Transaction> Urls.battleUrl
             return response
         }
     
@@ -54,12 +54,12 @@ module Battler =
                     monsters
                     team.Secret
     
-            let custom_Json = API.createCustomJsonPostingKey username "sm_team_reveal" json
+            let custom_Json = Hive.createCustomJsonPostingKey username "sm_team_reveal" json
             let postData = 
-                API.hive.create_transaction([| custom_Json |], [| postingKey |])
+                Hive.createTransaction custom_Json postingKey
                 |> Generator.getStringForSplinterlandsAPI 
                    
-            do! API.executeApiPostCall<Transaction> API.battleUrl postData |> Async.Ignore
+            do! Http.executeApiPostCall<Transaction> Urls.battleUrl postData |> Async.Ignore
         }
 
     let fight

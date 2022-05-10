@@ -2,8 +2,6 @@
 
 module Market =
 
-    open API
-
     type CardGroup =
         {
            card_detail_id: int
@@ -51,7 +49,7 @@ module Market =
                     | Rent -> "for_rent_grouped"
                     | Buy -> "for_sale_grouped"
                 Urls.getMarketUri action
-            let! items = executeApiCall<CardGroup seq> uri
+            let! items = Http.executeApiCall<CardGroup seq> uri
             let sortedItems =  items |> sortByLowPriceDescending
             return sortedItems
         }
@@ -72,7 +70,7 @@ module Market =
                     group.edition
             Urls.getMarketUri action
         async {
-            let! items = executeApiCall<CardOnMarket seq> uri
+            let! items = Http.executeApiCall<CardOnMarket seq> uri
             let sortedItems =
                 items
                 |> sortByLowPriceDescending
@@ -86,9 +84,9 @@ module Market =
                 cardDetails.market_id
                 (buyPrice.ToString("0.000"))
                 currency
-        let operations = API.createCustomJsonActiveKey playerName "sm_market_purchase" transactionPayload
-        let txid = API.hive.broadcast_transaction([| operations |] , [| activeKey |])
-        API.waitForTransaction playerName txid
+        let operations = Hive.createCustomJsonActiveKey playerName "sm_market_purchase" transactionPayload
+        let txid = Hive.brodcastTransaction operations activeKey
+        Hive.waitForTransaction playerName txid |> ignore
 
     let rentCards items currency days playerName activeKey =
         let transactionPayload  =
@@ -96,6 +94,6 @@ module Market =
                 items
                 currency
                 days
-        let operations = API.createCustomJsonActiveKey playerName "sm_market_rent" transactionPayload
-        let txid = API.hive.broadcast_transaction([| operations |] , [| activeKey |])
-        API.waitForTransaction playerName txid
+        let operations = Hive.createCustomJsonActiveKey playerName "sm_market_rent" transactionPayload
+        let txid = Hive.brodcastTransaction operations activeKey
+        Hive.waitForTransaction playerName txid |> ignore

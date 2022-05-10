@@ -2,12 +2,6 @@
 
 module Transfer =
 
-    open UnionTools
-    open FsHttp.DslCE
-    open FsHttp.Response
-    open System.Text.Json
-    open API
-
     type Token =
         | SPS
         | DEC 
@@ -21,9 +15,9 @@ module Transfer =
                     destinationPlayerName
                     destinationPlayerName
 
-            let operations = API.createCustomJsonActiveKey  playerName "sm_token_transfer" transactionPayload
-            let txid = API.hive.broadcast_transaction([| operations |] , [| activeKey |])
-            API.waitForTransaction playerName txid
+            let operations = Hive.createCustomJsonActiveKey  playerName "sm_token_transfer" transactionPayload
+            let txid = Hive.brodcastTransaction operations activeKey
+            Hive.waitForTransaction playerName txid |> ignore
         }
 
 
@@ -58,6 +52,6 @@ module Transfer =
                         token
                         playerName
                 Urls.getECUri "claim_sps_airdrop" parameters
-            let! claimData = API.executeApiCall<ClaimResult> uri
+            let! claimData = Http.executeApiCall<ClaimResult> uri
             ()
         }

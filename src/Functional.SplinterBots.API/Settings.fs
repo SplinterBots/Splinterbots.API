@@ -2,7 +2,6 @@
 
 module Settings =
     
-    open API
     open System
 
     type Setting = 
@@ -18,5 +17,5 @@ module Settings =
     let getSettings () = 
         async {
             let uri = Urls.gameApiUri "settings"
-            return! executeApiCall<Setting> uri
+            return! Http.executeApiCall<Setting> uri
         }

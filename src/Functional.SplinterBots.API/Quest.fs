@@ -2,11 +2,6 @@
 
 open System
 open System.Text.Json
-open FsHttp
-open FsHttp.DslCE
-open FsHttp.Response
-open API
-
 
 module Rewards =
     type RewardCard = 
@@ -28,7 +23,6 @@ module Rewards =
     let toString reward = 
         match reward.``type`` with 
         | "potion" -> $"{reward.potion_type} {reward.``type``} x {reward.quantity}"
-        //| "reward_card" -> $"{reward.card.card_detail_id}; isGold:{reward.card.gold}"
         | _ -> $"{reward.``type``} x {reward.quantity}"
 
     let convertToList (rewardArray: string) = 
@@ -87,7 +81,7 @@ module Quest =
     let getQuest playerName =
         async {
             let  uri = uri playerName
-            let! quests = executeApiCall<PlayerQuests array> uri
+            let! quests = Http.executeApiCall<PlayerQuests array> uri
             return 
                 match quests.Length with
                 | 0 -> None 
@@ -100,16 +94,16 @@ module Quest =
             let transactionPayload  = 
                 sprintf "{\"type\":\"quest\",\"quest_id\":\"%s\",\"app\":\"%s\",\"n\":\"%s\"}" 
                     questId 
-            let operations = API.createCustomJsonPostingKey playerName "sm_claim_reward" transactionPayload
-            let txid = API.hive.broadcast_transaction([| operations |] , [| postingKey |])
-            API.waitForTransaction playerName txid
+            let operations = Hive.createCustomJsonPostingKey playerName "sm_claim_reward" transactionPayload
+            let txid = Hive.brodcastTransaction operations postingKey
+            Hive.waitForTransaction playerName txid |> ignore
         }
     let startNewQuest playerName postingKey = 
         async {
             let randomNumber = Randomizer.generateRandomString 10
             let transactionPayload  = sprintf "{\"type\":\"daily\",\"app\":\"%s\",\"n\":\"%s\"}" 
-            let operations = API.createCustomJsonPostingKey playerName "sm_start_quest" transactionPayload
-            API.hive.broadcast_transaction([| operations |] , [| postingKey |]) |> ignore
+            let operations = Hive.createCustomJsonPostingKey playerName "sm_start_quest" transactionPayload
+            Hive.brodcastTransaction operations postingKey |> ignore
         }
 
 module LastSeasonRewards = 
@@ -135,7 +129,7 @@ module LastSeasonRewards =
     let getLastSeasonRewards playerName =
         async {
             let  uri = uri playerName
-            return! executeApiCall<SeasonRewards> uri
+            return! Http.executeApiCall<SeasonRewards> uri
         }
     let claimSeason seasonId playerName postingKey = 
         async {
@@ -143,8 +137,8 @@ module LastSeasonRewards =
             let transactionPayload  = 
                 sprintf "{\"type\":\"league_season\",\"season\":%i,\"app\":\"%s\",\"n\":\"%s\"}"
                     seasonId 
-            let operations = API.createCustomJsonPostingKey playerName "sm_claim_reward" transactionPayload
-            let txid = API.hive.broadcast_transaction([| operations |] , [| postingKey |])
-            API.waitForTransaction playerName txid
+            let operations = Hive.createCustomJsonPostingKey playerName "sm_claim_reward" transactionPayload
+            let txid = Hive.brodcastTransaction operations postingKey
+            Hive.waitForTransaction playerName txid |> ignore
         }
 

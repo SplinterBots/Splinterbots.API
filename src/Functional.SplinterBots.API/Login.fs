@@ -2,7 +2,7 @@
 
 module Login =
 
-    open API         
+    open Http         
 
     let private getUri name key = 
         let (ts, signature) = Signature.sign name key 
@@ -22,7 +22,7 @@ module Login =
     let getToken name postingKey =
         async {
             let uri = getUri name postingKey
-            let! login = executeApiCall<Login> uri
+            let! login = Http.executeApiCall<Login> uri
 
             return login.token
         }
@@ -34,7 +34,7 @@ module Login =
                     token
                     playerName
             let uri = Urls.getPlayerUri "messages" paramteres
-            let! callResponse  = executeApiCallToString uri
+            let! callResponse  = Http.executeApiCallToString uri
             let doesContainsErrorMessage = callResponse.StartsWith("{\"error")
 
             let isValid = doesContainsErrorMessage = false

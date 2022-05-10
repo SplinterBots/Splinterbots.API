@@ -16,5 +16,5 @@ module OutstandingMatch =
     let getOutstandingMatch username =
         
         let url = Urls.getPlayerUri "outstanding_match" $"?username={username}"
-        let response = API.executeApiCall<OutstandingMatch option>
+        let response = Http.executeApiCall<OutstandingMatch option>
         ()

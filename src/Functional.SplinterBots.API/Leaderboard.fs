@@ -24,5 +24,5 @@ module Leaderboard =
         async {
             let uri = 
                 Urls.cacheApiUri "players/leaderboard" $"leaderboard={int(leauge)}"
-            return! executeApiCall<Leaderboard> uri
+            return! Http.executeApiCall<Leaderboard> uri
         }

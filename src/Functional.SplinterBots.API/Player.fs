@@ -2,7 +2,6 @@
 
 module Player =
     
-    open API 
     open UnionTools
 
     module Balance =
@@ -72,7 +71,7 @@ module Player =
                 | None -> 0M
             async {
                 let uri = getPlayerBalanceApiUrl playerName
-                let! items = executeApiCall<TokenBalance array> uri
+                let! items = Http.executeApiCall<TokenBalance array> uri
                 return 
                     {
                         dec = getBalance items Token.DEC
@@ -132,5 +131,5 @@ module Player =
         let getDetails playerName =
             async {
                 let uri = uri playerName
-                return! executeApiCall<PlayerDetails> uri
+                return! Http.executeApiCall<PlayerDetails> uri
             }

@@ -23,5 +23,5 @@ module MatchDetails =
            allowedSplinters = matchDetails.["inactive"].ToString() |> Splinters.getAllowedSplinters
            gameIdPlayer = gameIdPlayer
            opponentLookupName = opponentLookupName
-           gameHashId = sprintf "%s/%s" (API.generateMD5Hash gameIdPlayer) (API.generateMD5Hash opponentLookupName)
+           gameHashId = sprintf "%s/%s" (MD5.generateMD5Hash gameIdPlayer) (MD5.generateMD5Hash opponentLookupName)
         }

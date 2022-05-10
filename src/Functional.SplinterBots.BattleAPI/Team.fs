@@ -15,7 +15,7 @@ type Team (summoner: Card, team: Card seq) =
                 summoner.card_long_id
                 (getMonstersIdList ())
                 secret
-        generateMD5Hash toHash
+        MD5.generateMD5Hash toHash
 
     member this.Summoner 
         with get () = summoner
