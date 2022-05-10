@@ -4,4 +4,7 @@ module Logger =
 
     type Message = string
 
-    type Logger<'Message> = 'Message -> Async<unit>
+    type Logger = string -> Async<unit>
+
+    let logStatus (logger: Logger) item = 
+        item.ToString() |> logger
