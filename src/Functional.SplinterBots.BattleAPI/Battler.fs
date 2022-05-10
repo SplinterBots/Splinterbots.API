@@ -11,8 +11,19 @@ open System.Threading.Tasks
 module Battler =
     type Username = string
     type PostingKey = string
-        
     type GetTeam = MatchDetails -> Async<Team>
+    type FightLog = 
+        | CheckingForExistingBattle
+        | BattleAlreadyStarted
+        | StartNewMatch
+        | MatchFound
+        | GettingTeam
+        | TeamSelected
+        | SubmitingTeam
+        | TeamSubmited
+        | RevealTeam
+        | FinishedBattle
+
     
     let private startNewMatch username postingkey =
         async {
@@ -66,21 +77,37 @@ module Battler =
             username 
             postingKey
             (webSocket: WebSocketListener)
+            (logger: Logger.Logger<FightLog>)
             (getTeam: GetTeam) =
         async {
-            let! transaction = startNewMatch username postingKey
-            do! webSocket.WaitForTransaction transaction.id
-            do! webSocket.WaitForGamesState GameState.match_found 
+            do! logger FightLog.CheckingForExistingBattle
+            let! matchInfo  = OutstandingMatch.getOutstandingMatch username
 
-            let matchDetails = webSocket.GetState GameState.match_found |> MatchDetails.bind
-            let! team = getTeam matchDetails
+            match matchInfo.IsSome && matchInfo.Value.team_hash <> "" with
+            | true -> do! logger FightLog.BattleAlreadyStarted
+            | _ ->
+                do! logger FightLog.StartNewMatch
+                let! transaction = startNewMatch username postingKey
+                do! webSocket.WaitForTransaction transaction.id
+                do! webSocket.WaitForGamesState GameState.match_found 
 
-            do! (Task.Delay 5000 |> Async.AwaitTask)
+                do! logger FightLog.MatchFound
+                let matchDetails = webSocket.GetState GameState.match_found |> MatchDetails.bind
 
-            let! submitedTeam = submitTeam username postingKey transaction team
-            let _ = webSocket.WaitForTransaction submitedTeam.id
+                do! logger FightLog.GettingTeam
+                let! team = getTeam matchDetails
+                do! logger FightLog.TeamSelected
 
-            do! revealTeam username postingKey transaction team
+                do! logger FightLog.SubmitingTeam
+                let! submitedTeam = submitTeam username postingKey transaction team
 
-            do! webSocket.WaitForGamesState GameState.opponent_submit_team
+                let _ = webSocket.WaitForTransaction submitedTeam.id
+                do! logger FightLog.TeamSubmited
+
+
+                do! logger FightLog.RevealTeam
+                do! revealTeam username postingKey transaction team
+            
+                do! webSocket.WaitForGamesState GameState.opponent_submit_team
+                do! logger FightLog.FinishedBattle            
         }

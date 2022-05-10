@@ -7,14 +7,18 @@ module OutstandingMatchTypes =
     type OutstandingMatch = 
         {
             id: string
+            player: string 
+            team_hash: string
         }
+
 module OutstandingMatch =
 
     open OutstandingMatchTypes
     open Functional.SplinterBots.API
     
     let getOutstandingMatch username =
-        
-        let url = Urls.getPlayerUri "outstanding_match" $"?username={username}"
-        let response = Http.executeApiCall<OutstandingMatch option>
-        ()
+        async {
+            let url = Urls.getPlayerUri "outstanding_match" $"?username={username}"
+            let! response = Http.executeApiCall<OutstandingMatch option> url
+            return response
+        }
