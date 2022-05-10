@@ -57,7 +57,7 @@ module Transfer =
                         token
                         token
                         playerName
-                API.getECUri "claim_sps_airdrop" parameters
+                Urls.getECUri "claim_sps_airdrop" parameters
             let! claimData = API.executeApiCall<ClaimResult> uri
             ()
         }

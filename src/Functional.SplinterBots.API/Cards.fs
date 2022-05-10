@@ -30,6 +30,7 @@ module Cards =
     open System
     open API
     open CardTypes
+    open Urls
 
 
     let filterCardsByOwningPlayer playerName (cards: Card seq) = 

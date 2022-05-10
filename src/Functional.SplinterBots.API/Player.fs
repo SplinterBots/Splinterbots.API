@@ -60,7 +60,7 @@ module Player =
                     alfa = 0.0M
                 }
         let private getPlayerBalanceApiUrl name = 
-            getPlayerUri "balances" $"username={name}"
+            Urls.getPlayerUri "balances" $"username={name}"
 
         let getBalance playerName =
             let getBalance (items: TokenBalance seq) (token: Token) = 
@@ -92,7 +92,7 @@ module Player =
             }
     module Details =
         let private uri name = 
-            getPlayerUri "details" $"name={name}"
+            Urls.getPlayerUri "details" $"name={name}"
         type PlayerDetails = 
             {
                 name: string

@@ -17,6 +17,6 @@ module Settings =
 
     let getSettings () = 
         async {
-            let uri = gameApiUri "settings"
+            let uri = Urls.gameApiUri "settings"
             return! executeApiCall<Setting> uri
         }

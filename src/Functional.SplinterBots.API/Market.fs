@@ -50,7 +50,7 @@ module Market =
                     match marketAction with
                     | Rent -> "for_rent_grouped"
                     | Buy -> "for_sale_grouped"
-                getMarketUri action
+                Urls.getMarketUri action
             let! items = executeApiCall<CardGroup seq> uri
             let sortedItems =  items |> sortByLowPriceDescending
             return sortedItems
@@ -70,7 +70,7 @@ module Market =
                     group.card_detail_id
                     group.gold
                     group.edition
-            getMarketUri action
+            Urls.getMarketUri action
         async {
             let! items = executeApiCall<CardOnMarket seq> uri
             let sortedItems =

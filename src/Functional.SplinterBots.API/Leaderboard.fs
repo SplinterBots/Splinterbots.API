@@ -23,6 +23,6 @@ module Leaderboard =
     let getLeaderboard (leauge: Leauge) = 
         async {
             let uri = 
-                cacheApiUri "players/leaderboard" $"leaderboard={int(leauge)}"
+                Urls.cacheApiUri "players/leaderboard" $"leaderboard={int(leauge)}"
             return! executeApiCall<Leaderboard> uri
         }

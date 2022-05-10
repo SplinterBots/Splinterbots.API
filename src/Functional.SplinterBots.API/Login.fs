@@ -10,7 +10,7 @@ module Login =
         let sid = "sid_" + Randomizer.generateRandomString 20
         let parameters = 
             $"name={name}&ref=&browser_id={bid}&session_id={sid}&sig={signature}&ts={ts}"
-        getPlayerUri "login" parameters
+        Urls.getPlayerUri "login" parameters
 
     type Login =
         {
@@ -33,7 +33,7 @@ module Login =
                 sprintf "token=%s&username=%s"
                     token
                     playerName
-            let uri = getPlayerUri "messages" paramteres
+            let uri = Urls.getPlayerUri "messages" paramteres
             let! callResponse  = executeApiCallToString uri
             let doesContainsErrorMessage = callResponse.StartsWith("{\"error")
 
